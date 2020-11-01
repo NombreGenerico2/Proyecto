@@ -9,6 +9,7 @@ project(proyecto
 cmake_policy(SET CMP0076 NEW)
 
 include(GNUInstallDirs)
+include(CPack)
 
 # The program itself
 add_executable(${PROJECT_NAME})
