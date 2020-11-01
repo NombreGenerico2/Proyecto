@@ -1,6 +1,4 @@
 #include <afd.hpp>
-#include <experimental/iterator>
-#include <algorithm>
 
 std::istream& operator>>(std::istream& is, afd& _afd)
 {
