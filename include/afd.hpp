@@ -17,6 +17,9 @@ class afd
 
 	friend std::istream& operator>>(std::istream& is, afd& _afd);
 	friend std::ostream& operator<<(std::ostream& is, const afd& _afd);
+
+public:
+	afd brzozowski();
 };
 
 std::istream& operator>>(std::istream& is, afd& _afd);

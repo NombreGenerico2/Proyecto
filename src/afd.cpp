@@ -66,3 +66,9 @@ std::ostream& operator<<(std::ostream& os, const afd& _afd)
 
 	return os;
 }
+
+afd afd::brzozowski()
+{
+	// TODO
+	return *this;
+}
