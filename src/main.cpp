@@ -1,7 +1,12 @@
 #include <iostream>
+#include <afd.hpp>
 
 int main()
 {
-	std::cout << "Hello world\n";
+	afd a;
+
+	std::cin >> a;
+	std::cout << a;
+
 	return 0;
 }
