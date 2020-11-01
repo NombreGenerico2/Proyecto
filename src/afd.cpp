@@ -7,14 +7,13 @@ std::istream& operator>>(std::istream& is, afd& _afd)
 
 	_afd.states = std::vector<afd::state>(n);
 	_afd.initial = initial;
-	_afd.finals = std::vector<bool>(n);
 
 	for(int i = 0; i < finals_n; ++i)
 	{
-		int _final;
-		is >> _final;
+		int accepting;
+		is >> accepting;
 
-		_afd.finals[_final] = true;
+		_afd.states[accepting].accepting = true;
 	}
 
 	for(int i = 0; i < n*2; ++i)
@@ -30,23 +29,21 @@ std::istream& operator>>(std::istream& is, afd& _afd)
 
 std::ostream& operator<<(std::ostream& os, const afd& _afd)
 {
-	int final_n = 0;
-	for(auto i: _afd.finals)
-		if(i)
-			final_n++;
+	int accepting_n = 0;
+	for(auto i: _afd.states)
+		if(i.accepting)
+			accepting_n++;
 
 	os
 		<< _afd.states.size() << ' '
 		<< _afd.initial << ' '
-		<< final_n
+		<< accepting_n
 	;
 
-	for(size_t i = 0; i < _afd.finals.size(); ++i)
+	for(size_t i = 0; i < _afd.states.size(); ++i)
 	{
-		if(_afd.finals[i])
-		{
+		if(_afd.states[i].accepting)
 			os << ' ' << i;
-		}
 	}
 
 	os << '\n';

@@ -9,10 +9,10 @@ class afd
 	struct state
 	{
 		std::array<int, 2> transitions;
+		bool accepting = false;
 	};
 
 	int initial;
-	std::vector<bool> finals;
 	std::vector<state> states;
 
 	friend std::istream& operator>>(std::istream& is, afd& _afd);
