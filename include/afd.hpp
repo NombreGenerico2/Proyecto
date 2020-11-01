@@ -12,8 +12,7 @@ class afd
 	};
 
 	int initial;
-	std::vector<int> finals;
-
+	std::vector<bool> finals;
 	std::vector<state> states;
 
 	friend std::istream& operator>>(std::istream& is, afd& _afd);

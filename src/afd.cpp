@@ -9,14 +9,14 @@ std::istream& operator>>(std::istream& is, afd& _afd)
 
 	_afd.states = std::vector<afd::state>(n);
 	_afd.initial = initial;
-	_afd.finals = std::vector<int>(finals_n);
+	_afd.finals = std::vector<bool>(n);
 
 	for(int i = 0; i < finals_n; ++i)
 	{
 		int _final;
 		is >> _final;
 
-		_afd.finals[i] = _final;
+		_afd.finals[_final] = true;
 	}
 
 	for(int i = 0; i < n*2; ++i)
@@ -32,17 +32,24 @@ std::istream& operator>>(std::istream& is, afd& _afd)
 
 std::ostream& operator<<(std::ostream& os, const afd& _afd)
 {
+	int final_n = 0;
+	for(auto i: _afd.finals)
+		if(i)
+			final_n++;
+
 	os
 		<< _afd.states.size() << ' '
 		<< _afd.initial << ' '
-		<< _afd.finals.size() << ' '
+		<< final_n
 	;
 
-	std::copy(
-		_afd.finals.begin(),
-		_afd.finals.end(),
-		std::experimental::make_ostream_joiner(os, ' ')
-	);
+	for(size_t i = 0; i < _afd.finals.size(); ++i)
+	{
+		if(_afd.finals[i])
+		{
+			os << ' ' << i;
+		}
+	}
 
 	os << '\n';
 
