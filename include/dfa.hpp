@@ -18,7 +18,7 @@ class dfa
 	std::vector<state> states;
 
 	friend std::istream& operator>>(std::istream& is, dfa& _dfa);
-	friend std::ostream& operator<<(std::ostream& is, const dfa& _dfa);
+	friend std::ostream& operator<<(std::ostream& os, const dfa& _dfa);
 
 	friend class nfa;
 
