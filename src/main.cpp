@@ -3,14 +3,14 @@
 
 int main()
 {
-	afd a;
+	dfa d;
 
-	std::cin >> a;
+	std::cin >> d;
 
 	// Pregunta 1
 	std::cout
 		<< "Pregunta 1:\n"
-		<< a.brzozowski() << '\n'
+		<< d.brzozowski() << '\n'
 	;
 
 	// Pregunta 2
