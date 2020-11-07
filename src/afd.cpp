@@ -1,4 +1,5 @@
 #include <afd.hpp>
+#include <matrix.hpp>
 
 std::istream& operator>>(std::istream& is, afd& _afd)
 {
@@ -67,5 +68,7 @@ std::ostream& operator<<(std::ostream& os, const afd& _afd)
 afd afd::brzozowski()
 {
 	// TODO
+	matrix m(states.size());
+
 	return *this;
 }
