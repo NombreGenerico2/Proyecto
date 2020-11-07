@@ -82,11 +82,13 @@ nfa dfa::reverse_edges()
 			n.states[states[i].transitions[j]].transitions.insert({j, i});
 		}
 	}
+	//std::cerr << '\t' << n.states.size() << '\n';
 
 	return n;
 }
 
 dfa dfa::brzozowski()
 {
-	return reverse_edges().powerset().reverse_edges().powerset();
+	return reverse_edges().powerset();
+	//return reverse_edges().powerset().reverse_edges().powerset();
 }
