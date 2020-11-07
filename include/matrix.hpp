@@ -5,9 +5,13 @@
 class matrix
 {
 	std::vector<bool> v;
+	size_t length;
 
 public:
 	matrix(size_t size):
-		v(size*size)
+		v(size*size),
+		length(size)
 	{};
+
+	std::vector<bool>::reference operator[] (std::pair<int, int> pq);
 };
