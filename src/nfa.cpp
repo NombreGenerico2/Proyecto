@@ -1,8 +1,11 @@
 #include <dfa.hpp>
 #include <nfa.hpp>
 
-nfa::operator dfa()
+dfa nfa::powerset()
 {
 	dfa d;
+
+	// TODO
+
 	return d;
 }

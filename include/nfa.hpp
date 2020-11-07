@@ -19,5 +19,5 @@ class nfa
 	friend class dfa;
 
 public:
-	operator dfa();
+	dfa powerset();
 };

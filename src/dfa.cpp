@@ -88,5 +88,5 @@ nfa dfa::reverse_edges()
 
 dfa dfa::brzozowski()
 {
-	return ((dfa)reverse_edges()).reverse_edges();
+	return reverse_edges().powerset().reverse_edges().powerset();
 }
