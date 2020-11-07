@@ -65,9 +65,16 @@ std::ostream& operator<<(std::ostream& os, const dfa& _dfa)
 	return os;
 }
 
-dfa dfa::brzozowski()
+nfa dfa::reverse_edges()
 {
+	nfa n;
+
 	// TODO
 
-	return *this;
+	return n;
+}
+
+dfa dfa::brzozowski()
+{
+	return ((dfa)reverse_edges()).reverse_edges();
 }

@@ -4,6 +4,8 @@
 #include <array>
 #include <iostream>
 
+#include <nfa.hpp>
+
 class dfa
 {
 	struct state
@@ -18,7 +20,10 @@ class dfa
 	friend std::istream& operator>>(std::istream& is, dfa& _dfa);
 	friend std::ostream& operator<<(std::ostream& is, const dfa& _dfa);
 
+	friend class nfa;
+
 public:
+	nfa reverse_edges();
 	dfa brzozowski();
 };
 

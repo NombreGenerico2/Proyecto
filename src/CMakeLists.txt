@@ -3,4 +3,5 @@ target_sources(${PROJECT_NAME}
 		dfa.cpp
 		main.cpp
 		matrix.cpp
+		nfa.cpp
 )
