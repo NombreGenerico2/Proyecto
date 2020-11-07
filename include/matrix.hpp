@@ -13,5 +13,5 @@ public:
 		length(size)
 	{};
 
-	std::vector<bool>::reference operator[] (std::pair<int, int> pq);
+	std::vector<bool>::reference operator()(size_t p, size_t q);
 };

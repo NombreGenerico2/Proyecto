@@ -1,6 +1,6 @@
 #include <matrix.hpp>
 
-std::vector<bool>::reference matrix::operator[] (std::pair<int, int> pq)
+std::vector<bool>::reference matrix::operator()(size_t p, size_t q)
 {
-	return v[pq.first*length + pq.second];
+	return v[p*length + q];
 }
