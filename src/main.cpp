@@ -1,5 +1,5 @@
+#include <dfa.hpp>
 #include <iostream>
-#include <afd.hpp>
 
 int main()
 {

@@ -1,6 +1,6 @@
 target_sources(${PROJECT_NAME}
 	PRIVATE
-		afd.cpp
+		dfa.cpp
 		main.cpp
 		matrix.cpp
 )

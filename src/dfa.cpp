@@ -1,4 +1,4 @@
-#include <afd.hpp>
+#include <dfa.hpp>
 #include <matrix.hpp>
 
 std::istream& operator>>(std::istream& is, dfa& _dfa)
