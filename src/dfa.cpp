@@ -69,12 +69,13 @@ nfa dfa::reverse_edges()
 {
 	nfa n;
 
-	n.initial = initial;
 	n.states = std::vector<nfa::state>(states.size());
+	n.states[initial].accepting = true;
 
 	for(size_t i = 0; i < states.size(); ++i)
 	{
-		n.states[i].accepting = states[i].accepting;
+		if(states[i].accepting)
+			n.initials.push_back(i);
 
 		for(size_t j = 0; j < states[i].transitions.size(); ++j)
 		{

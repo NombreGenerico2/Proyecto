@@ -13,7 +13,7 @@ class nfa
 		bool accepting = false;
 	};
 
-	int initial;
+	std::vector<int> initials;
 	std::vector<state> states;
 
 	friend class dfa;
