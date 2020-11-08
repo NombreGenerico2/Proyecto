@@ -25,6 +25,7 @@ class dfa
 public:
 	nfa reverse_edges();
 	dfa brzozowski();
+	void stateEquivalence();
 };
 
 std::istream& operator>>(std::istream& is, dfa& _dfa);
