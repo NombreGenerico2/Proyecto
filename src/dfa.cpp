@@ -94,81 +94,44 @@ dfa dfa::brzozowski()
 }
 void dfa::stateEquivalence()
 {
-	using namespace std;
+	size_t n = states.size();
 
-	int n = states.size();
+	matrix m(n);
 
-	bool distinguidos[n][n];
-
-	for (int i = 0 ; i < n ; i++){
-		for (int j = 0 ; j < n; j++){
-			distinguidos[i][j] = 0;	
-		}
-	}
-	
-		for (int i = 0 ; i < n ; i++){
-		for (int j = 0 ; j < n; j++){
-			cout<< distinguidos[i][j]<<" ";	
-		}
-		cout<<endl;
-	}
-	cout<<endl;
-
-	for(int i = 0; i < n; i++){
+	for(size_t i = 0; i < n; i++){
 		if(states[i].accepting){
-			for(int j = 0; j < i; j++){
+			for(size_t j = 0; j < i; j++){
 				if(!states[j].accepting){
-					//lleno la fila que le corresponde 
+					//lleno la fila que le corresponde
 					//a este estado de aceptacion
-					distinguidos[i][j] = true;
+					m(i, j) = distinguishable;
 				}
 			}
-			for(int k = i + 1; k < n; k++){
+			for(size_t k = i + 1; k < n; k++){
 				if(!states[k].accepting){
 					//lleno la columna que le corresponde
 					//a este estado de aceptacion
-					distinguidos[k][i] = true;
+					m(k, i) = distinguishable;
 				}
 			}
 		}
 	}
-		for (int i = 0 ; i < n ; i++){
-		for (int j = 0 ; j < n; j++){
-			if (i ==j ){
-				cout<<"-"<<" ";
-				continue;
-			}
-			cout<< distinguidos[i][j]<<" ";	
-		}
-		cout<<endl;
-	}
+
 	int modificaciones = 0;
-	cout<<modificaciones<<endl;
 	while(modificaciones < 50)
 	{
-		for(int i = 0  ; i < n ;i++){
-			for(int j = 0 ; j < n; j++){
+		for(size_t i = 0  ; i < n ;i++){
+			for(size_t j = 0 ; j < n; j++){
 				if (i == j)continue;
 				for(int symbol = 0 ; symbol <= 1 ; symbol++){
-					cout<<distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]<<endl;
-					if (distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]){
-						distinguidos[i][j]=true;
+					if (m(states[i].transitions[symbol], states[j].transitions[symbol])){
+						m(i, j) = distinguishable;
 						modificaciones++;
-						cout<<modificaciones<<endl;
 					}
 				}
 			}
 		}
 	}
 
-	for (int i = 0 ; i < n ; i++){
-		for (int j = 0 ; j < n; j++){
-			if (i ==j ){
-				cout<<"-"<<" ";
-				continue;
-			}
-			cout<< distinguidos[i][j]<<" ";	
-		}
-		cout<<endl;
-	}
+	std::cout << m << '\n';
 }

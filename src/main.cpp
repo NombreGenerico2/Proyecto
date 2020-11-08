@@ -7,14 +7,13 @@ int main()
 
 	std::cin >> d;
 
-	// Pregunta 1
 	std::cout
 		<< "Pregunta 1:\n"
 		<< d.brzozowski() << '\n'
 	;
 
+	std::cout << "Pregunta 2:\n";
 	d.stateEquivalence();
-	// TODO
 
 	return 0;
 }
