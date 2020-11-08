@@ -13,7 +13,7 @@ int main()
 		<< d.brzozowski() << '\n'
 	;
 
-	// Pregunta 2
+	d.stateEquivalence();
 	// TODO
 
 	return 0;
