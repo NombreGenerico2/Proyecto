@@ -105,9 +105,6 @@ dfa dfa::brzozowski()
 void dfa::stateEquivalence()
 {
 	using namespace std;
-	using ll = long long;
-	using vi = std::vector<int>;
-	using ii = pair< int,int >;
 
 	int n = states.size();
 
@@ -122,55 +119,35 @@ void dfa::stateEquivalence()
 		}
 	}
 	
-		for (int i = 0 ; i < n ; i++){
-		for (int j = 0 ; j < n; j++){
-			cout<< distinguidos[i][j]<<" ";	
-		}
-		cout<<endl;
-	}
-	cout<<endl;
 
 	for(int i = 0; i < n; i++){
         if(states[i].accepting){
             for(int j = 0; j < i; j++){
                 if(!states[j].accepting){
-                    //lleno la fila que le corresponde 
-                    //a este estado de aceptacion
                     distinguidos[i][j] = true;
                 }
             }
             for(int k = i + 1; k < n; k++){
                 if(!states[k].accepting){
-                    //lleno la columna que le corresponde
-                    //a este estado de aceptacion
                     distinguidos[k][i] = true;
                 }
             }
         }
     }
-		for (int i = 0 ; i < n ; i++){
-		for (int j = 0 ; j < n; j++){
-			if (i ==j ){
-				cout<<"-"<<" ";
-				continue;
-			}
-			cout<< distinguidos[i][j]<<" ";	
-		}
-		cout<<endl;
-	}
+
 int modificaciones = 0;
-cout<<modificaciones<<endl;
+//do{}
 while(modificaciones < 50)
 {
 	for(int i = 0  ; i < n ;i++){
 		for(int j = 0 ; j < n; j++){
 			if (i == j)continue;
 			for(int symbol = 0 ; symbol <= 1 ; symbol++){
-				cout<<distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]<<endl;
+				//cout<<distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]<<endl;
 				if (distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]){
 					distinguidos[i][j]=true;
 					modificaciones++;
-					cout<<modificaciones<<endl;
+					//cout<<modificaciones<<endl;
 				}
 			}
 		}
@@ -180,7 +157,8 @@ while(modificaciones < 50)
 
 		for (int i = 0 ; i < n ; i++){
 		for (int j = 0 ; j < n; j++){
-			if (i ==j ){
+
+			if (i ==j || j>i ){
 				cout<<"-"<<" ";
 				continue;
 			}
@@ -188,30 +166,7 @@ while(modificaciones < 50)
 		}
 		cout<<endl;
 	}
-//states[p].transitions[a] = q
-//cout <<states[i].transitions[symbol]<<endl; 
-	//Estados finales
-	/*
-    for(int i = 0; i < n; i++){
-    if(states[i].accepting){
-        for(int j = i + 1; j < n; j++){
-            if(!accept[j]){
-                //lleno la fila que le corresponde 
-                //a este estado de aceptacion
-                distinguidos[i][j] = true;
-            }
-        }
-        for(int k = i; k < n; k++){
-            if(!accept[k]){
-                //lleno la columna que le corresponde
-                //a este estado de aceptacion
-                distinguidos[k][i] = true;
-            	}
-        	}
-    	}
-	}*/
-	
-	//int modificaciones = 0;
+
 
 	
 }
