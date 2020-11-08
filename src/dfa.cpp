@@ -132,7 +132,7 @@ void dfa::stateEquivalence()
 
 	for(int i = 0; i < n; i++){
         if(states[i].accepting){
-            for(int j = i + 1; j < n; j++){
+            for(int j = 0; j < i; j++){
                 if(!states[j].accepting){
                     //lleno la fila que le corresponde 
                     //a este estado de aceptacion
@@ -150,10 +150,46 @@ void dfa::stateEquivalence()
     }
 		for (int i = 0 ; i < n ; i++){
 		for (int j = 0 ; j < n; j++){
+			if (i ==j ){
+				cout<<"-"<<" ";
+				continue;
+			}
 			cout<< distinguidos[i][j]<<" ";	
 		}
 		cout<<endl;
 	}
+int modificaciones = 0;
+cout<<modificaciones<<endl;
+while(modificaciones < 50)
+{
+	for(int i = 0  ; i < n ;i++){
+		for(int j = 0 ; j < n; j++){
+			if (i == j)continue;
+			for(int symbol = 0 ; symbol <= 1 ; symbol++){
+				cout<<distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]<<endl;
+				if (distinguidos[states[i].transitions[symbol]][states[j].transitions[symbol]]){
+					distinguidos[i][j]=true;
+					modificaciones++;
+					cout<<modificaciones<<endl;
+				}
+			}
+		}
+	}
+}
+//while(modificaciones != 0);
+
+		for (int i = 0 ; i < n ; i++){
+		for (int j = 0 ; j < n; j++){
+			if (i ==j ){
+				cout<<"-"<<" ";
+				continue;
+			}
+			cout<< distinguidos[i][j]<<" ";	
+		}
+		cout<<endl;
+	}
+//states[p].transitions[a] = q
+//cout <<states[i].transitions[symbol]<<endl; 
 	//Estados finales
 	/*
     for(int i = 0; i < n; i++){
