@@ -94,9 +94,13 @@ dfa dfa::brzozowski()
 }
 void dfa::stateEquivalence()
 {
+
 	size_t n = states.size();
 
 	matrix m(n);
+
+	matrix v(n);
+	
 
 	for(size_t i = 0; i < n; i++){
 		if(states[i].accepting){
@@ -105,6 +109,7 @@ void dfa::stateEquivalence()
 					//lleno la fila que le corresponde
 					//a este estado de aceptacion
 					m(i, j) = distinguishable;
+					v(i, j) = distinguishable;
 				}
 			}
 			for(size_t k = i + 1; k < n; k++){
@@ -112,26 +117,29 @@ void dfa::stateEquivalence()
 					//lleno la columna que le corresponde
 					//a este estado de aceptacion
 					m(k, i) = distinguishable;
+					v(k, i) = distinguishable;
 				}
 			}
 		}
 	}
 
-	int modificaciones = 0;
-	while(modificaciones < 50)
+
+	int modificaciones = 1;
+	while(modificaciones > 0)
 	{
+		modificaciones = 0;
 		for(size_t i = 0  ; i < n ;i++){
 			for(size_t j = 0 ; j < n; j++){
 				if (i == j)continue;
 				for(int symbol = 0 ; symbol <= 1 ; symbol++){
-					if (m(states[i].transitions[symbol], states[j].transitions[symbol])){
+					if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
 						m(i, j) = distinguishable;
+						v(i, j) = distinguishable;	
 						modificaciones++;
 					}
 				}
 			}
 		}
 	}
-
 	std::cout << m << '\n';
 }

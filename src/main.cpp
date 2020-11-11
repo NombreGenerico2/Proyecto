@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[])
 {
+
 	if(argc > 1)
 		if(!freopen(argv[argc-1], "r", stdin))
 		{
@@ -19,9 +20,11 @@ int main(int argc, char *argv[])
 		<< "Pregunta 1:\n"
 		<< d.brzozowski() << '\n'
 	;
-
-	std::cout << "Pregunta 2:\n";
-	d.stateEquivalence();
+	//Pregunta2
+	std::cout
+		<< "Pregunta 2:\n"
+	;
+		d.stateEquivalence();
 
 	return 0;
 }
