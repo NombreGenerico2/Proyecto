@@ -1,12 +1,19 @@
-#include <dfa.hpp>
+#include <cstdio>
 #include <iostream>
 
-int main()
-{
-	dfa d;
-	std::cout
-		<< "Ingrese input de afd:\n";
+#include <dfa.hpp>
 
+int main(int argc, char *argv[])
+{
+
+	if(argc > 1)
+		if(!freopen(argv[argc-1], "r", stdin))
+		{
+			perror(argv[0]);
+			return EXIT_FAILURE;
+		}
+
+	dfa d;
 	std::cin >> d;
 
 	std::cout
