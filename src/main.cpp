@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 	//Pregunta2
 	std::cout
 		<< "Pregunta 2:\n"
+		<< d.stateEquivalence()
 	;
-		d.stateEquivalence();
 
 	return 0;
 }

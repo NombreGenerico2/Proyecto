@@ -4,6 +4,7 @@
 #include <array>
 #include <iostream>
 
+#include <matrix.hpp>
 #include <nfa.hpp>
 
 class dfa
@@ -25,7 +26,7 @@ class dfa
 public:
 	nfa reverse_edges();
 	dfa brzozowski();
-	void stateEquivalence();
+	matrix stateEquivalence();
 };
 
 std::istream& operator>>(std::istream& is, dfa& _dfa);

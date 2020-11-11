@@ -1,5 +1,4 @@
 #include <dfa.hpp>
-#include <matrix.hpp>
 
 std::istream& operator>>(std::istream& is, dfa& _dfa)
 {
@@ -92,15 +91,13 @@ dfa dfa::brzozowski()
 {
 	return reverse_edges().powerset().reverse_edges().powerset();
 }
-void dfa::stateEquivalence()
+matrix dfa::stateEquivalence()
 {
-
 	size_t n = states.size();
 
 	matrix m(n);
 
 	matrix v(n);
-	
 
 	for(size_t i = 0; i < n; i++){
 		if(states[i].accepting){
@@ -134,12 +131,13 @@ void dfa::stateEquivalence()
 				for(int symbol = 0 ; symbol <= 1 ; symbol++){
 					if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
 						m(i, j) = distinguishable;
-						v(i, j) = distinguishable;	
+						v(i, j) = distinguishable;
 						modificaciones++;
 					}
 				}
 			}
 		}
 	}
-	std::cout << m << '\n';
+
+	return m;
 }
