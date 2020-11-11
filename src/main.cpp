@@ -9,17 +9,15 @@ int main()
 
 	std::cin >> d;
 
-	// Pregunta 1
 	std::cout
 		<< "Pregunta 1:\n"
-		<< d.brzozowski() << '\n\n'
+		<< d.brzozowski() << '\n'
 	;
 	//Pregunta2
 	std::cout
 		<< "Pregunta 2:\n"
 	;
-	d.stateEquivalence();
-	// TODO
+		d.stateEquivalence();
 
 	return 0;
 }
