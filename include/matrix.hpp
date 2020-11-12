@@ -3,19 +3,18 @@
 #include <iostream>
 #include <vector>
 
+
 #define equivalent      false
 #define distinguishable true
 
 class matrix
 {
-	/// true  = equivalent
-	/// false = distinguishable
 	std::vector<bool> v;
 	size_t length;
 
 public:
 	matrix(size_t size):
-		v(size*size, equivalent),
+		v(size*size, false),
 		length(size)
 	{};
 

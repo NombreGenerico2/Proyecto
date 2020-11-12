@@ -15,12 +15,12 @@ dfa nfa::powerset()
 
 	d.initial = state_n;
 	q.push({{initials.begin(), initials.end()}, state_n++});
-
+	//O(2^n)
 	while(!q.empty())
 	{
 		visited.insert(q.front());
 		dfa::state new_state;
-
+		//O(1)
 		for(int i: {0, 1})
 		{
 			std::set<int> new_state_set;

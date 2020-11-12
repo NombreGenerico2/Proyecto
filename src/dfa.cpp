@@ -65,20 +65,22 @@ std::ostream& operator<<(std::ostream& os, const dfa& _dfa)
 
 	return os;
 }
-
+//O(n)
 nfa dfa::reverse_edges()
 {
 	nfa n;
 
 	n.states = std::vector<nfa::state>(states.size());
 	n.states[initial].accepting = true;
-
+	//O(n)
 	for(size_t i = 0; i < states.size(); ++i)
 	{
+		//O(1)
 		if(states[i].accepting)
 			n.initials.push_back(i);
-
-		for(size_t j = 0; j < states[i].transitions.size(); ++j)
+		//O(1)
+		// 2 = states[i].transitions.size()
+		for(size_t j = 0; j < 2; ++j)
 		{
 			n.states.at(states.at(i).transitions.at(j)).transitions.insert({j, i});
 		}
@@ -86,11 +88,14 @@ nfa dfa::reverse_edges()
 
 	return n;
 }
-
+//O(2^n)
 dfa dfa::brzozowski()
 {
+	//reverse_edges() O(n)
+	//powerset() O(2^n)
 	return reverse_edges().powerset().reverse_edges().powerset();
 }
+//O(n^4)
 matrix dfa::stateEquivalence()
 {
 	size_t n = states.size();
@@ -98,21 +103,19 @@ matrix dfa::stateEquivalence()
 	matrix m(n);
 
 	matrix v(n);
-
+	//O(n^2)
 	for(size_t i = 0; i < n; i++){
 		if(states[i].accepting){
+			//o(n)
 			for(size_t j = 0; j < i; j++){
 				if(!states[j].accepting){
-					//lleno la fila que le corresponde
-					//a este estado de aceptacion
 					m(i, j) = distinguishable;
 					v(i, j) = distinguishable;
 				}
 			}
+			//O(n)
 			for(size_t k = i + 1; k < n; k++){
 				if(!states[k].accepting){
-					//lleno la columna que le corresponde
-					//a este estado de aceptacion
 					m(k, i) = distinguishable;
 					v(k, i) = distinguishable;
 				}
@@ -122,12 +125,16 @@ matrix dfa::stateEquivalence()
 
 
 	int modificaciones = 1;
+	//O(n^4)
 	while(modificaciones > 0)
 	{
 		modificaciones = 0;
+		//O(n^2)
 		for(size_t i = 0  ; i < n ;i++){
+			//O(n)
 			for(size_t j = 0 ; j < n; j++){
 				if (i == j)continue;
+				//O(1)
 				for(int symbol = 0 ; symbol <= 1 ; symbol++){
 					if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
 						m(i, j) = distinguishable;

@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream& os, const matrix& m)
 
 	for(auto cell: m.v)
 	{
-		os << ((i % (m.length+1) == 0)? '-' : (cell? '1' : '0'));
+		os << ((i % (m.length+1) == 0)? '-' : (cell? '0' : '1'));
 		os << ((++i % m.length == 0)? '\n': ' ');
 	}
 	return os;
