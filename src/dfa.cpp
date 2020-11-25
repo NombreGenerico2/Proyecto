@@ -148,3 +148,21 @@ matrix dfa::stateEquivalence()
 
 	return m;
 }
+
+matrix dfa::stateEquivalence2()
+{
+	// TODO
+	return {states.size()};
+}
+
+dfa dfa::huffman()
+{
+	// TODO
+	return *this;
+}
+
+dfa dfa::hopcroft()
+{
+	// TODO
+	return *this;
+}

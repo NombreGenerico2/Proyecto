@@ -27,6 +27,10 @@ public:
 	nfa reverse_edges();
 	dfa brzozowski();
 	matrix stateEquivalence();
+
+	matrix stateEquivalence2();
+	dfa huffman();
+	dfa hopcroft();
 };
 
 std::istream& operator>>(std::istream& is, dfa& _dfa);

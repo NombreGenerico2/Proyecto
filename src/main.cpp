@@ -19,11 +19,14 @@ int main(int argc, char *argv[])
 	std::cout
 		<< "Pregunta 1:\n"
 		<< d.brzozowski() << '\n'
-	;
-	//Pregunta2
-	std::cout
 		<< "Pregunta 2:\n"
-		<< d.stateEquivalence()
+		<< d.stateEquivalence() << '\n'
+		<< "Pregunta 3:\n"
+		<< d.stateEquivalence2() << '\n'
+		<< "Pregunta 4:\n"
+		<< d.huffman() << '\n'
+		<< "Pregunta 5:\n"
+		<< d.hopcroft() << '\n'
 	;
 
 	return 0;
