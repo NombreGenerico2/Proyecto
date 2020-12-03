@@ -1,5 +1,7 @@
 #include <dfa.hpp>
 
+#include <set>
+
 std::istream& operator>>(std::istream& is, dfa& _dfa)
 {
 	int n, initial, finals_n;
@@ -152,13 +154,42 @@ matrix dfa::stateEquivalence()
 matrix dfa::stateEquivalence2()
 {
 	// TODO
-	return {states.size()};
+	return stateEquivalence();
 }
 
 dfa dfa::huffman()
 {
-	// TODO
-	return *this;
+	dfa d;
+	int state_c = 0;
+
+	matrix m = stateEquivalence2();
+
+	std::set<std::set<int>> equivalent_set;
+
+	// TODO fill equivalent_set
+
+	for(const auto& s: equivalent_set)
+	{
+		auto& new_state = d.states.emplace_back(state{});
+
+		if(s.find(initial) != s.end())
+			d.initial = state_c;
+
+		for(const auto& state: s)
+		{
+			if(states[state].accepting)
+			{
+				new_state.accepting = true;
+			}
+		}
+
+		// TODO transitions
+
+		state_c++;
+	}
+
+
+	return d;
 }
 
 dfa dfa::hopcroft()
