@@ -159,16 +159,41 @@ matrix dfa::stateEquivalence2()
 
 dfa dfa::huffman()
 {
+	auto fill = [](const matrix& m) -> std::set<std::set<int>>
+	{
+		std::multimap<int, int> closures;
+
+		for(size_t i = 0; i < m.size(); ++i)
+		{
+			for(size_t j = 0; j < m.size(); ++j)
+			{
+				if(m(i, j))
+					closures.insert({i, j});
+			}
+		}
+
+		std::set<std::set<int>> result;
+		for(size_t i = 0; i < m.size(); ++i)
+		{
+			std::set<int> new_set;
+			new_set.insert(i);
+
+			auto range = closures.equal_range(i);
+			for(auto it = range.first; it != range.second; ++it)
+			{
+				new_set.insert(it->second);
+			}
+
+			result.insert(new_set);
+		}
+
+		return result;
+	};
+
 	dfa d;
 	int state_c = 0;
 
-	matrix m = stateEquivalence2();
-
-	std::set<std::set<int>> equivalent_set;
-
-	// TODO fill equivalent_set
-
-	for(const auto& s: equivalent_set)
+	for(const auto& s: fill(stateEquivalence2()))
 	{
 		auto& new_state = d.states.emplace_back(state{});
 

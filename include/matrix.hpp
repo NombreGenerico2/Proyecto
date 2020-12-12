@@ -18,7 +18,13 @@ public:
 		length(size)
 	{};
 
+	size_t size() const
+	{
+		return length;
+	};
+
 	std::vector<bool>::reference operator()(size_t p, size_t q);
+	std::vector<bool>::const_reference operator()(size_t p, size_t q) const;
 
 	friend std::ostream& operator<<(std::ostream& os, const matrix& m);
 };

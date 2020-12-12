@@ -5,6 +5,11 @@ std::vector<bool>::reference matrix::operator()(size_t p, size_t q)
 	return v[p*length + q];
 }
 
+std::vector<bool>::const_reference matrix::operator()(size_t p, size_t q) const
+{
+	return v[p*length + q];
+}
+
 std::ostream& operator<<(std::ostream& os, const matrix& m)
 {
 	size_t i = 0;
