@@ -193,6 +193,8 @@ dfa dfa::huffman()
 	dfa d;
 	int state_c = 0;
 
+	std::map<int, int> old2new;
+
 	for(const auto& s: fill(stateEquivalence2()))
 	{
 		auto& new_state = d.states.emplace_back(state{});
@@ -202,17 +204,24 @@ dfa dfa::huffman()
 
 		for(const auto& state: s)
 		{
+			old2new[state] = state_c;
+
 			if(states[state].accepting)
 			{
 				new_state.accepting = true;
 			}
-		}
 
-		// TODO transitions
+			// Old transitions
+			new_state.transitions = states[state].transitions;
+		}
 
 		state_c++;
 	}
 
+	for(auto& s: d.states)
+	{
+		s.transitions = {old2new[s.transitions[0]], old2new[s.transitions[1]]};
+	}
 
 	return d;
 }
