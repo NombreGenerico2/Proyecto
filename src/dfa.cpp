@@ -1,6 +1,7 @@
 #include <dfa.hpp>
 
 #include <set>
+using namespace std;
 
 std::istream& operator>>(std::istream& is, dfa& _dfa)
 {
@@ -90,11 +91,9 @@ nfa dfa::reverse_edges()
 
 	return n;
 }
-//O(2^n)
+
 dfa dfa::brzozowski()
 {
-	//reverse_edges() O(n)
-	//powerset() O(2^n)
 	return reverse_edges().powerset().reverse_edges().powerset();
 }
 //O(n^4)
@@ -106,27 +105,28 @@ matrix dfa::stateEquivalence()
 
 	matrix v(n);
 	//O(n^2)
-	for(size_t i = 0; i < n; i++){
-		if(states[i].accepting){
+	for(size_t i = 0; i < n; i++)
+	{
+		if(states[i].accepting)
+		{
 			//o(n)
-			for(size_t j = 0; j < i; j++){
+			for(size_t j = 0; j < i; j++)
+			{
 				if(!states[j].accepting){
+					//cout<<"primer for"<<endl;
 					m(i, j) = distinguishable;
+					m(j,i) = distinguishable;
+					v(j,i) = distinguishable;
 					v(i, j) = distinguishable;
 				}
 			}
-			//O(n)
-			for(size_t k = i + 1; k < n; k++){
-				if(!states[k].accepting){
-					m(k, i) = distinguishable;
-					v(k, i) = distinguishable;
-				}
-			}
+
+
 		}
 	}
-
-
+	
 	int modificaciones = 1;
+
 	//O(n^4)
 	while(modificaciones > 0)
 	{
@@ -140,62 +140,57 @@ matrix dfa::stateEquivalence()
 				for(int symbol = 0 ; symbol <= 1 ; symbol++){
 					if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
 						m(i, j) = distinguishable;
+						m(j,i) = distinguishable;
+						v(j, i) = distinguishable;
 						v(i, j) = distinguishable;
 						modificaciones++;
+
+
 					}
 				}
 			}
 		}
 	}
-
 	return m;
 }
-
+//O(n^2)
 matrix dfa::stateEquivalence2()
 {
-	// TODO
-	return stateEquivalence();
+	vector<pair<int ,int >> pares_;
+	int n = states.size();
+	for(int i = 0 ; i < n; i++){
+		for(size_t j = 0; j < i; j++)
+		{
+			if(!states[j].accepting){
+				pares_.push_back({i,j});
+				pares_.push_back({j,i});				
+			}
+		}
+	}
+	matrix m(n);
+	for(int symbol = 0 ; symbol <= 1 ; symbol++){
+		/*
+		if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
+			m(i, j) = distinguishable;
+			v(i, j) = distinguishable;
+		}*/
+	}
+
+	//return stateEquivalence();
 }
 
 dfa dfa::huffman()
 {
-	auto fill = [](const matrix& m) -> std::set<std::set<int>>
-	{
-		std::multimap<int, int> closures;
-
-		for(size_t i = 0; i < m.size(); ++i)
-		{
-			for(size_t j = 0; j < m.size(); ++j)
-			{
-				if(m(i, j))
-					closures.insert({i, j});
-			}
-		}
-
-		std::set<std::set<int>> result;
-		for(size_t i = 0; i < m.size(); ++i)
-		{
-			std::set<int> new_set;
-			new_set.insert(i);
-
-			auto range = closures.equal_range(i);
-			for(auto it = range.first; it != range.second; ++it)
-			{
-				new_set.insert(it->second);
-			}
-
-			result.insert(new_set);
-		}
-
-		return result;
-	};
-
 	dfa d;
 	int state_c = 0;
 
-	std::map<int, int> old2new;
+	matrix m = stateEquivalence2();
 
-	for(const auto& s: fill(stateEquivalence2()))
+	std::set<std::set<int>> equivalent_set;
+
+	// TODO fill equivalent_set
+
+	for(const auto& s: equivalent_set)
 	{
 		auto& new_state = d.states.emplace_back(state{});
 
@@ -204,30 +199,49 @@ dfa dfa::huffman()
 
 		for(const auto& state: s)
 		{
-			old2new[state] = state_c;
-
 			if(states[state].accepting)
 			{
 				new_state.accepting = true;
 			}
-
-			// Old transitions
-			new_state.transitions = states[state].transitions;
 		}
+
+		// TODO transitions
 
 		state_c++;
 	}
 
-	for(auto& s: d.states)
-	{
-		s.transitions = {old2new[s.transitions[0]], old2new[s.transitions[1]]};
-	}
 
 	return d;
 }
 
 dfa dfa::hopcroft()
 {
-	// TODO
-	return *this;
+
+	auto P = states;
+
+	/*
+		P = {F, Q/F} #particion
+		W = {F, Q/F} #distinguishers
+		states
+		
+	while(W is not empty):
+    	A = W.back()
+    	W.pop()
+    for each c in [0, 1]:
+        X = can_reach(A, c)
+        #X: todos los estados que pueden llegar a A (de estados) mediante el caracter c
+        for each set Y in P:
+            if(X ∩ Y is nonempty and Y \ X is nonempty):
+                #si Y != X y la interseccion existe
+                #(Hay estados en Y que pueden llegar a W)
+                #Reemplazo Y por su split
+                P.remove(Y)
+                P.add(X ∩ Y)
+                P.add(Y \ X)
+                if Y is in W:
+                    W.remove(Y)*/
+	//P = {F, Q/F} particion
+	//W = {F, Q/F} dinstinguishers
+	//while(!W.empty())
+	//A = W.jb
 }
