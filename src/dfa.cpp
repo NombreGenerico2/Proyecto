@@ -189,7 +189,7 @@ dfa dfa::huffman()
 		{
 			for(size_t j = 0; j < m.size(); ++j)
 			{
-				if(m(i, j))
+				if(m(i, j) == equivalent)
 					closures.insert({i, j});
 			}
 		}
