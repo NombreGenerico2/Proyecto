@@ -1,6 +1,8 @@
 #include <dfa.hpp>
 
+#include <queue>
 #include <set>
+
 using namespace std;
 
 std::istream& operator>>(std::istream& is, dfa& _dfa)
@@ -179,9 +181,36 @@ matrix dfa::stateEquivalence2()
 	return m;
 }
 
+std::vector<bool> dfa::closure(int state) const
+{
+	std::vector<bool> v(states.size());
+
+	std::queue<int> to_visit;
+
+	to_visit.push(state);
+
+	while(!to_visit.empty())
+	{
+		int next_state = to_visit.front();
+
+		for(int s: states[next_state].transitions)
+		{
+			if(!v[s])
+			{
+				to_visit.push(s);
+				v[s] = true;
+			}
+		}
+
+		to_visit.pop();
+	}
+
+	return v;
+}
+
 dfa dfa::huffman()
 {
-	auto fill = [](const matrix& m) -> std::set<std::set<int>>
+	auto fill = [](const matrix& m, const std::vector<bool>& closure) -> std::set<std::set<int>>
 	{
 		std::multimap<int, int> closures;
 
@@ -197,6 +226,9 @@ dfa dfa::huffman()
 		std::set<std::set<int>> result;
 		for(size_t i = 0; i < m.size(); ++i)
 		{
+			if(!closure[i])
+				continue;
+
 			std::set<int> new_set;
 			new_set.insert(i);
 
@@ -217,7 +249,7 @@ dfa dfa::huffman()
 
 	std::map<int, int> old2new;
 
-	for(const auto& s: fill(stateEquivalence()))
+	for(const auto& s: fill(stateEquivalence(), closure(initial)))
 	{
 		auto& new_state = d.states.emplace_back(state{});
 

@@ -23,6 +23,8 @@ class dfa
 
 	friend class nfa;
 
+	std::vector<bool> closure(int state) const;
+
 public:
 	nfa reverse_edges();
 	dfa brzozowski();
