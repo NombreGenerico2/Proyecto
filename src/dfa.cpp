@@ -285,6 +285,20 @@ dfa dfa::huffman() const
 dfa dfa::hopcroft() const
 {
 
+	auto P = make_partition();
+	auto W = P;
+
+	while(!W.empty())
+	{
+		auto A = *W.begin();
+		W.erase(W.begin());
+
+		for(int c: {0, 1})
+		{
+			//TODO
+		}
+	}
+
 	/*
 		P = {F, Q/F} #particion
 		W = {F, Q/F} #distinguishers
