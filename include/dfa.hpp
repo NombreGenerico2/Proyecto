@@ -1,8 +1,9 @@
 #pragma once
 
-#include <vector>
 #include <array>
 #include <iostream>
+#include <set>
+#include <vector>
 
 #include <matrix.hpp>
 #include <nfa.hpp>
@@ -24,6 +25,7 @@ class dfa
 	friend class nfa;
 
 	std::vector<bool> closure(int state) const;
+	std::set<std::set<int>> make_partition();
 
 public:
 	nfa reverse_edges();

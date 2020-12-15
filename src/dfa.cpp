@@ -1,7 +1,6 @@
 #include <dfa.hpp>
 
 #include <queue>
-#include <set>
 
 using namespace std;
 
@@ -208,48 +207,51 @@ std::vector<bool> dfa::closure(int state) const
 	return v;
 }
 
+std::set<std::set<int>> dfa::make_partition()
+{
+	matrix m = stateEquivalence();
+	auto c = closure(initial);
+
+	std::multimap<int, int> closures;
+
+	for(size_t i = 0; i < m.size(); ++i)
+	{
+		for(size_t j = 0; j < m.size(); ++j)
+		{
+			if(m(i, j) == equivalent)
+				closures.insert({i, j});
+		}
+	}
+
+	std::set<std::set<int>> result;
+	for(size_t i = 0; i < m.size(); ++i)
+	{
+		if(!c[i])
+			continue;
+
+		std::set<int> new_set;
+		new_set.insert(i);
+
+		auto range = closures.equal_range(i);
+		for(auto it = range.first; it != range.second; ++it)
+		{
+			new_set.insert(it->second);
+		}
+
+		result.insert(new_set);
+	}
+
+	return result;
+}
+
 dfa dfa::huffman()
 {
-	auto fill = [](const matrix& m, const std::vector<bool>& closure) -> std::set<std::set<int>>
-	{
-		std::multimap<int, int> closures;
-
-		for(size_t i = 0; i < m.size(); ++i)
-		{
-			for(size_t j = 0; j < m.size(); ++j)
-			{
-				if(m(i, j) == equivalent)
-					closures.insert({i, j});
-			}
-		}
-
-		std::set<std::set<int>> result;
-		for(size_t i = 0; i < m.size(); ++i)
-		{
-			if(!closure[i])
-				continue;
-
-			std::set<int> new_set;
-			new_set.insert(i);
-
-			auto range = closures.equal_range(i);
-			for(auto it = range.first; it != range.second; ++it)
-			{
-				new_set.insert(it->second);
-			}
-
-			result.insert(new_set);
-		}
-
-		return result;
-	};
-
 	dfa d;
 	int state_c = 0;
 
 	std::map<int, int> old2new;
 
-	for(const auto& s: fill(stateEquivalence(), closure(initial)))
+	for(const auto& s: make_partition())
 	{
 		auto& new_state = d.states.emplace_back(state{});
 
@@ -282,8 +284,6 @@ dfa dfa::huffman()
 
 dfa dfa::hopcroft()
 {
-
-	auto P = states;
 
 	/*
 		P = {F, Q/F} #particion
