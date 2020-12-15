@@ -70,7 +70,7 @@ std::ostream& operator<<(std::ostream& os, const dfa& _dfa)
 	return os;
 }
 //O(n)
-nfa dfa::reverse_edges()
+nfa dfa::reverse_edges() const
 {
 	nfa n;
 
@@ -93,12 +93,12 @@ nfa dfa::reverse_edges()
 	return n;
 }
 
-dfa dfa::brzozowski()
+dfa dfa::brzozowski() const
 {
 	return reverse_edges().powerset().reverse_edges().powerset();
 }
 //O(n^4)
-matrix dfa::stateEquivalence()
+matrix dfa::stateEquivalence() const
 {
 	size_t n = states.size();
 
@@ -155,7 +155,7 @@ matrix dfa::stateEquivalence()
 	return m;
 }
 //O(n^2)
-matrix dfa::stateEquivalence2()
+matrix dfa::stateEquivalence2() const
 {
 	vector<pair<int ,int >> pares_;
 	size_t n = states.size();
@@ -207,7 +207,7 @@ std::vector<bool> dfa::closure(int state) const
 	return v;
 }
 
-std::set<std::set<int>> dfa::make_partition()
+std::set<std::set<int>> dfa::make_partition() const
 {
 	matrix m = stateEquivalence();
 	auto c = closure(initial);
@@ -244,7 +244,7 @@ std::set<std::set<int>> dfa::make_partition()
 	return result;
 }
 
-dfa dfa::huffman()
+dfa dfa::huffman() const
 {
 	dfa d;
 	int state_c = 0;
@@ -282,7 +282,7 @@ dfa dfa::huffman()
 	return d;
 }
 
-dfa dfa::hopcroft()
+dfa dfa::hopcroft() const
 {
 
 	/*

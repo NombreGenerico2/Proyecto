@@ -25,16 +25,16 @@ class dfa
 	friend class nfa;
 
 	std::vector<bool> closure(int state) const;
-	std::set<std::set<int>> make_partition();
+	std::set<std::set<int>> make_partition() const;
 
 public:
-	nfa reverse_edges();
-	dfa brzozowski();
-	matrix stateEquivalence();
+	nfa reverse_edges() const;
+	dfa brzozowski() const;
+	matrix stateEquivalence() const;
 
-	matrix stateEquivalence2();
-	dfa huffman();
-	dfa hopcroft();
+	matrix stateEquivalence2() const;
+	dfa huffman() const;
+	dfa hopcroft() const;
 };
 
 std::istream& operator>>(std::istream& is, dfa& _dfa);
