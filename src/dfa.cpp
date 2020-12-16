@@ -204,6 +204,8 @@ std::vector<bool> dfa::closure(int state) const
 		to_visit.pop();
 	}
 
+	v[state] = true;
+
 	return v;
 }
 
@@ -253,9 +255,9 @@ dfa dfa::huffman() const
 
 	for(const auto& s: make_partition())
 	{
-
-		d.states.push_back(state{});
-		auto& new_state = *(d.states.rend());
+		//d.states.push_back(state{});
+		//auto& new_state = *(d.states.rend());
+		auto& new_state = d.states.emplace_back();
 
 		if(s.find(initial) != s.end())
 			d.initial = state_c;
