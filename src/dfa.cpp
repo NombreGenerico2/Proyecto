@@ -1,5 +1,7 @@
 #include <dfa.hpp>
 
+#include <algorithm>
+#include <iterator>
 #include <queue>
 
 using namespace std;
@@ -324,6 +326,52 @@ dfa dfa::hopcroft() const
 		return {accepting, no_accepting};
 	};
 
+	auto intersection = [](const std::set<int>& a, const std::set<int>& b) -> std::set<int>
+	{
+		std::set<int> s;
+
+		std::set_intersection(
+			a.begin(),
+			a.end(),
+			b.begin(),
+			b.end(),
+			std::inserter(s, s.end())
+		);
+
+		return s;
+	};
+
+	auto _union = [](const std::set<int>& a, const std::set<int>& b) -> std::set<int>
+	{
+		std::set<int> s;
+
+		std::set_union(
+			a.begin(),
+			a.end(),
+			b.begin(),
+			b.end(),
+			std::inserter(s, s.end())
+		);
+
+		return s;
+	};
+
+	auto diff = [](const std::set<int>& a, const std::set<int>& b) -> std::set<int>
+	{
+		std::set<int> s;
+
+		std::set_difference(
+			a.begin(),
+			a.end(),
+			b.begin(),
+			b.end(),
+			std::inserter(s, s.end())
+		);
+
+		return s;
+	};
+
+
 	auto P = partition();
 	auto W = P;
 
@@ -335,7 +383,9 @@ dfa dfa::hopcroft() const
 		for(int c: {0, 1})
 		{
 			std::set<int> X = can_reach(A, c);
-			//TODO
+			for(const auto& Y: P)
+			{
+			}
 		}
 	}
 
