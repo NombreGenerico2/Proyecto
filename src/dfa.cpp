@@ -271,7 +271,8 @@ dfa dfa::huffman(partition_t p) const
 
 	for(const auto& s: set_set)
 	{
-		auto& new_state = d.states.emplace_back();
+		d.states.push_back(state{});
+		auto& new_state = *(d.states.rbegin());
 
 		if(s.find(initial) != s.end())
 			d.initial = state_c;

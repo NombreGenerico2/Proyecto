@@ -2,10 +2,10 @@
 #include <iostream>
 
 #include <dfa.hpp>
+#include <args.hpp>
 
 int main(int argc, char *argv[])
 {
-
 	if(argc > 1)
 		if(!freopen(argv[argc-1], "r", stdin))
 		{
