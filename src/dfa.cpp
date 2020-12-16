@@ -253,7 +253,13 @@ dfa dfa::huffman() const
 
 	for(const auto& s: make_partition())
 	{
+
+#if __cplusplus > 201402L
 		auto& new_state = d.states.emplace_back(state{});
+#else
+		d.states.push_back(state{});
+		auto& new_state = *(d.states.rend());
+#endif
 
 		if(s.find(initial) != s.end())
 			d.initial = state_c;
@@ -300,7 +306,31 @@ dfa dfa::hopcroft() const
 		return s;
 	};
 
-	auto P = make_partition();
+	auto partition = [this]() -> std::set<std::set<int>>
+	{
+		std::set<std::set<int>> ss;
+
+		std::set<int> no_accepting;
+		std::set<int> accepting;
+
+		for(size_t i = 0; i < states.size(); ++i)
+		{
+			if(states[i].accepting)
+			{
+				accepting.insert(i);
+			}
+			else
+			{
+				no_accepting.insert(i);
+			}
+		}
+
+		//TODO
+
+		return ss;
+	};
+
+	auto P = partition();
 	auto W = P;
 
 	while(!W.empty())
@@ -311,6 +341,7 @@ dfa dfa::hopcroft() const
 		for(int c: {0, 1})
 		{
 			std::set<int> X = can_reach(A, c);
+			//TODO
 		}
 	}
 
@@ -335,6 +366,7 @@ dfa dfa::hopcroft() const
 				P.add(Y \ X)
 				if Y is in W:
 					W.remove(Y)*/
+
 	//P = {F, Q/F} particion
 	//W = {F, Q/F} dinstinguishers
 	//while(!W.empty())
