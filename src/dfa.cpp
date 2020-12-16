@@ -306,8 +306,6 @@ dfa dfa::hopcroft() const
 
 	auto partition = [this]() -> std::set<std::set<int>>
 	{
-		std::set<std::set<int>> ss;
-
 		std::set<int> no_accepting;
 		std::set<int> accepting;
 
@@ -323,9 +321,7 @@ dfa dfa::hopcroft() const
 			}
 		}
 
-		//TODO
-
-		return ss;
+		return {accepting, no_accepting};
 	};
 
 	auto P = partition();
