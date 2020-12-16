@@ -254,12 +254,8 @@ dfa dfa::huffman() const
 	for(const auto& s: make_partition())
 	{
 
-#if __cplusplus > 201402L
-		auto& new_state = d.states.emplace_back(state{});
-#else
 		d.states.push_back(state{});
 		auto& new_state = *(d.states.rend());
-#endif
 
 		if(s.find(initial) != s.end())
 			d.initial = state_c;
