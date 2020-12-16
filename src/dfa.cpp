@@ -284,6 +284,21 @@ dfa dfa::huffman() const
 
 dfa dfa::hopcroft() const
 {
+	auto can_reach = [this](const std::set<int>& A, int c) -> std::set<int>
+	{
+		std::set<int> s;
+
+		int i = 0;
+		for(const auto& state: states)
+		{
+			if(A.find(state.transitions[c]) != A.end())
+				s.insert(i);
+
+			i++;
+		}
+
+		return s;
+	};
 
 	auto P = make_partition();
 	auto W = P;
@@ -295,7 +310,7 @@ dfa dfa::hopcroft() const
 
 		for(int c: {0, 1})
 		{
-			//TODO
+			std::set<int> X = can_reach(A, c);
 		}
 	}
 
