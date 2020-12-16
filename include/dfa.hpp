@@ -8,6 +8,13 @@
 #include <matrix.hpp>
 #include <nfa.hpp>
 
+enum class partition_t
+{
+	matrix1,
+	matrix2,
+	hopcroft
+};
+
 class dfa
 {
 	struct state
@@ -33,8 +40,8 @@ public:
 	matrix stateEquivalence() const;
 
 	matrix stateEquivalence2() const;
-	dfa huffman() const;
-	dfa hopcroft() const;
+	dfa huffman(partition_t p = partition_t::matrix1) const;
+	std::set<std::set<int>> hopcroft() const;
 };
 
 std::istream& operator>>(std::istream& is, dfa& _dfa);

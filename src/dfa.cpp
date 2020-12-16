@@ -248,17 +248,29 @@ std::set<std::set<int>> dfa::make_partition() const
 	return result;
 }
 
-dfa dfa::huffman() const
+dfa dfa::huffman(partition_t p) const
 {
 	dfa d;
 	int state_c = 0;
 
 	std::map<int, int> old2new;
 
-	for(const auto& s: make_partition())
+	std::set<std::set<int>> set_set;
+
+	switch(p)
 	{
-		//d.states.push_back(state{});
-		//auto& new_state = *(d.states.rend());
+		case partition_t::matrix1:
+		case partition_t::matrix2:
+			set_set = make_partition();
+			break;
+
+		case partition_t::hopcroft:
+			set_set = hopcroft();
+			break;
+	}
+
+	for(const auto& s: set_set)
+	{
 		auto& new_state = d.states.emplace_back();
 
 		if(s.find(initial) != s.end())
@@ -287,8 +299,7 @@ dfa dfa::huffman() const
 
 	return d;
 }
-
-dfa dfa::hopcroft() const
+std::set<std::set<int>> dfa::hopcroft() const
 {
 	auto can_reach = [this](const std::set<int>& A, int c) -> std::set<int>
 	{
@@ -341,21 +352,6 @@ dfa dfa::hopcroft() const
 		return s;
 	};
 
-	auto _union = [](const std::set<int>& a, const std::set<int>& b) -> std::set<int>
-	{
-		std::set<int> s;
-
-		std::set_union(
-			a.begin(),
-			a.end(),
-			b.begin(),
-			b.end(),
-			std::inserter(s, s.end())
-		);
-
-		return s;
-	};
-
 	auto diff = [](const std::set<int>& a, const std::set<int>& b) -> std::set<int>
 	{
 		std::set<int> s;
@@ -385,37 +381,36 @@ dfa dfa::hopcroft() const
 			std::set<int> X = can_reach(A, c);
 			for(const auto& Y: P)
 			{
+				auto yx_inter = intersection(X, Y);
+				auto yx_diff = diff(Y, X);
+
+				if(!yx_inter.empty() && !yx_diff.empty())
+				{
+					P.erase(Y);
+					P.insert(yx_inter);
+					P.insert(yx_diff);
+
+					if(W.find(Y) != W.end())
+					{
+						W.erase(Y);
+						W.insert(yx_inter);
+						W.insert(yx_diff);
+					}
+					else
+					{
+						if(yx_inter.size() <= yx_diff.size())
+						{
+							W.insert(yx_inter);
+						}
+						else
+						{
+							W.insert(yx_diff);
+						}
+					}
+				}
 			}
 		}
 	}
 
-	/*
-		P = {F, Q/F} #particion
-		W = {F, Q/F} #distinguishers
-		states
-
-	while(W is not empty):
-		A = W.back()
-		W.pop()
-	for each c in [0, 1]:
-		X = can_reach(A, c)
-		#X: todos los estados que pueden llegar a A (de estados) mediante el caracter c
-		for each set Y in P:
-			if(X ∩ Y is nonempty and Y \ X is nonempty):
-				#si Y != X y la interseccion existe
-				#(Hay estados en Y que pueden llegar a W)
-				#Reemplazo Y por su split
-				P.remove(Y)
-				P.add(X ∩ Y)
-				P.add(Y \ X)
-				if Y is in W:
-					W.remove(Y)*/
-
-	//P = {F, Q/F} particion
-	//W = {F, Q/F} dinstinguishers
-	//while(!W.empty())
-	//A = W.jb
-
-	//TODO
-	return *this;
+	return P;
 }

@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 		<< "Pregunta 4:\n"
 		<< d.huffman() << '\n'
 		<< "Pregunta 5:\n"
-		<< d.hopcroft() << '\n'
+		<< d.huffman(partition_t::hopcroft) << '\n'
 	;
 
 	return 0;
