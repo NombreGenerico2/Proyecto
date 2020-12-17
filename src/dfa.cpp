@@ -194,30 +194,24 @@ matrix dfa::stateEquivalence2() const
 		}
 	}
 
-	//for(size_t i = 0  ; i < n ;i++){
-	//	for(size_t j = 0 ; j < n; j++){
-	//		if (i == j)continue;
-	//		for(int symbol = 0 ; symbol <= 1 ; symbol++){
-	//			if(m(states[i].transitions[symbol], states[j].transitions[symbol]) && m(i,j) == equivalent){
-	//				m(i,j) = distinguishable;
-	//				m(j,i) = distinguishable;
-
-	//				to_check.push({i, j});
-	//				to_check.push({j, i});
-	//			}
-	//		}
-	//	}
-	//}
-
 	while(!to_check.empty())
 	{
-		auto [p, q] = to_check.front();
+		auto [r, s] = to_check.front();
 
-		if(m(p, q) != distinguishable)
+		auto range = p_list.equal_range({r, s});
+
+		for(auto pq = range.first; pq != range.second; ++pq)
 		{
-			to_check.push({p, q});
-			m(p, q) = distinguishable;
+			int p = pq->second.first;
+			int q = pq->second.second;
+
+			if(m(p, q) != distinguishable)
+			{
+				to_check.push({p, q});
+				m(p, q) = distinguishable;
+			}
 		}
+
 
 		to_check.pop();
 	}
@@ -256,7 +250,7 @@ std::vector<bool> dfa::closure(int state) const
 
 std::set<std::set<int>> dfa::make_partition() const
 {
-	matrix m = stateEquivalence();
+	matrix m = stateEquivalence2();
 	auto c = closure(initial);
 
 	std::multimap<int, int> closures;
