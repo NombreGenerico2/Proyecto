@@ -159,25 +159,31 @@ matrix dfa::stateEquivalence() const
 //O(n^2)
 matrix dfa::stateEquivalence2() const
 {
-	vector<pair<int ,int >> pares_;
-	size_t n = states.size();
-	for(size_t i = 0 ; i < n; i++){
-		for(size_t j = 0; j < i; j++)
+	std::multimap<std::pair<int, int>, std::pair<int, int>> p_list;
+
+	for(size_t p = 0; p < states.size(); ++p)
+	{
+		for(size_t q = 0; q < states.size(); ++q)
 		{
-			if(!states[j].accepting){
-				pares_.push_back({i,j});
-				pares_.push_back({j,i});
+			for(int a: {0, 1})
+			{
+				int r = states[p].transitions[a];
+				int s = states[q].transitions[a];
+
+				p_list.insert({{r,s},{p,q}});
 			}
 		}
 	}
-	matrix m(n);
-	for(int symbol = 0 ; symbol <= 1 ; symbol++){
-		/*
-		if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
-			m(i, j) = distinguishable;
-			v(i, j) = distinguishable;
-		}*/
-	}
+
+	matrix m(states.size()); //TODO
+
+	//for(int symbol = 0 ; symbol <= 1 ; symbol++){
+	//	/*
+	//	if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
+	//		m(i, j) = distinguishable;
+	//		v(i, j) = distinguishable;
+	//	}*/
+	//}
 
 	return m;
 }
