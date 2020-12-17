@@ -110,6 +110,7 @@ matrix dfa::stateEquivalence() const
 	//O(n^2)
 	for(size_t i = 0; i < n; i++)
 	{
+		
 		if(states[i].accepting)
 		{
 			//o(n)
@@ -139,15 +140,15 @@ matrix dfa::stateEquivalence() const
 				if (i == j)continue;
 				//O(1)
 				for(int symbol = 0 ; symbol <= 1 ; symbol++){
-					if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
+					if ((m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false )||
+					 (v(j,i) == false && m(states[j].transitions[symbol], states[i].transitions[symbol]))){
 						m(i, j) = distinguishable;
 						m(j,i) = distinguishable;
 						v(j, i) = distinguishable;
 						v(i, j) = distinguishable;
 						modificaciones++;
-
-
 					}
+					
 				}
 			}
 		}
