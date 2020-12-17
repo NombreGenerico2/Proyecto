@@ -161,6 +161,7 @@ matrix dfa::stateEquivalence2() const
 {
 	std::multimap<std::pair<int, int>, std::pair<int, int>> p_list;
 
+	// O(n^2): n <- |Q|
 	for(size_t p = 0; p < states.size(); ++p)
 	{
 		for(size_t q = 0; q < states.size(); ++q)
@@ -175,15 +176,38 @@ matrix dfa::stateEquivalence2() const
 		}
 	}
 
-	matrix m(states.size()); //TODO
+	matrix m(states.size());
+	std::queue<std::pair<int, int>> to_check;
 
-	//for(int symbol = 0 ; symbol <= 1 ; symbol++){
-	//	/*
-	//	if (m(states[i].transitions[symbol], states[j].transitions[symbol]) && v(i,j) == false){
-	//		m(i, j) = distinguishable;
-	//		v(i, j) = distinguishable;
-	//	}*/
-	//}
+	for(size_t i = 0; i < states.size(); i++)
+	{
+		if(states[i].accepting)
+		{
+			for(size_t j = 0; j < i; j++)
+			{
+				if(!states[j].accepting){
+					m(i,j) = distinguishable;
+					m(j,i) = distinguishable;
+
+					to_check.push({i, j});
+					to_check.push({j, i});
+				}
+			}
+		}
+	}
+
+	while(!to_check.empty())
+	{
+		auto [p, q] = to_check.front();
+
+		if(m(p, q) != distinguishable)
+		{
+			to_check.push({p, q});
+			m(p, q) = distinguishable;
+		}
+
+		to_check.pop();
+	}
 
 	return m;
 }
